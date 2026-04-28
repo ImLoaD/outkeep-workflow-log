@@ -37,13 +37,16 @@
           <button class="chip" type="button" data-filter="forms">Формы</button>
           <button class="chip" type="button" data-filter="system">Система</button>
         </div>
-        <select id="workflowSelect" aria-label="Регламент">
-          <option value="all">Все регламенты</option>
-        </select>
         <label class="quiet-toggle">
           <input id="quietToggle" type="checkbox" checked />
           <span>Скрыть тихие sync</span>
         </label>
+        <div class="workflow-filter" id="workflowChips" role="listbox" aria-label="Регламент">
+          <span class="filter-label">Регламент</span>
+          <button class="chip active" type="button" data-workflow="all">Все</button>
+          <button class="chip" type="button" data-workflow="7b1189b0-5b89-47ec-9a22-7c2df14bfd13">Осмотр предмета лизинга</button>
+          <button class="chip" type="button" data-workflow="9a70677d-a5af-483d-8391-8d0aa5077842">Тестовый регламент</button>
+        </div>
       </section>
 
       <section class="summary-strip" aria-label="Сводка">

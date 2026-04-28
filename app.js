@@ -119,7 +119,7 @@ const state = {
 const eventRows = document.querySelector("#eventRows");
 const emptyState = document.querySelector("#emptyState");
 const searchInput = document.querySelector("#searchInput");
-const workflowSelect = document.querySelector("#workflowSelect");
+const workflowChips = document.querySelector("#workflowChips");
 const quietToggle = document.querySelector("#quietToggle");
 
 function normalizeEvent(event) {
@@ -174,14 +174,6 @@ function groupFileUploads(events) {
 }
 
 const EVENTS = groupFileUploads(RAW_EVENTS);
-
-function initWorkflowSelect() {
-  const workflows = [...new Set(EVENTS.map((event) => event.workflowId))];
-  workflowSelect.insertAdjacentHTML(
-    "beforeend",
-    workflows.map((id) => `<option value="${escapeAttr(id)}">${escapeHtml(WORKFLOW_LABELS[id] || compactId(id, 8))}</option>`).join(""),
-  );
-}
 
 function eventInfo(event) {
   const info = EVENT_COPY[event.type] || { label: event.type, status: "событие", tone: "neutral", bucket: "system" };
@@ -570,8 +562,11 @@ searchInput.addEventListener("input", (event) => {
   render();
 });
 
-workflowSelect.addEventListener("change", (event) => {
-  state.workflow = event.target.value;
+workflowChips.addEventListener("click", (event) => {
+  const chip = event.target.closest("[data-workflow]");
+  if (!chip) return;
+  state.workflow = chip.dataset.workflow;
+  document.querySelectorAll("[data-workflow]").forEach((item) => item.classList.toggle("active", item === chip));
   state.selectedId = null;
   render();
 });
@@ -604,6 +599,5 @@ document.addEventListener("click", async (event) => {
   await navigator.clipboard.writeText(copy.dataset.copy);
 });
 
-initWorkflowSelect();
 state.selectedId = EVENTS.find((event) => eventInfo(event).tone === "danger")?.id || null;
 render();
