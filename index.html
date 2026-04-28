@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Журнал действий workflow</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="context">
+          <p class="eyebrow brand">OUTKEEP</p>
+          <h1>Заявки</h1>
+          <div class="context-line">
+            <span>Заявка <button class="link-button" type="button" data-copy="REQ-4821">REQ-4821</button></span>
+            <span id="contextWorkflow">Все регламенты</span>
+            <span id="contextCount">0 событий</span>
+          </div>
+        </div>
+        <div class="density">
+          <button class="icon-button active" type="button" data-density="compact" aria-label="Компактный режим">S</button>
+          <button class="icon-button" type="button" data-density="comfortable" aria-label="Свободный режим">M</button>
+        </div>
+      </header>
+
+      <section class="filters" aria-label="Фильтры журнала">
+        <div class="search-wrap">
+          <span class="search-mark" aria-hidden="true">/</span>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Поиск по форме, событию, файлу, ID" />
+        </div>
+        <div class="chip-row" id="typeChips" role="listbox" aria-label="Тип события">
+          <button class="chip active" type="button" data-filter="all">Все</button>
+          <button class="chip" type="button" data-filter="errors">Ошибки</button>
+          <button class="chip" type="button" data-filter="files">Файлы</button>
+          <button class="chip" type="button" data-filter="forms">Формы</button>
+          <button class="chip" type="button" data-filter="system">Система</button>
+        </div>
+        <select id="workflowSelect" aria-label="Регламент">
+          <option value="all">Все регламенты</option>
+        </select>
+        <label class="quiet-toggle">
+          <input id="quietToggle" type="checkbox" checked />
+          <span>Скрыть тихие sync</span>
+        </label>
+      </section>
+
+      <section class="summary-strip" aria-label="Сводка">
+        <div>
+          <span class="metric" id="totalMetric">0</span>
+          <span class="metric-label">видимых строк</span>
+        </div>
+        <div>
+          <span class="metric success" id="successMetric">0</span>
+          <span class="metric-label">успешно</span>
+        </div>
+        <div>
+          <span class="metric danger" id="errorMetric">0</span>
+          <span class="metric-label">валидация</span>
+        </div>
+        <div>
+          <span class="metric warn" id="fileMetric">0</span>
+          <span class="metric-label">файловые действия</span>
+        </div>
+      </section>
+
+      <section class="log-surface" aria-label="Таблица действий">
+        <div class="table-scroll">
+          <table class="activity-table">
+            <colgroup>
+              <col class="col-time" />
+              <col class="col-user" />
+              <col class="col-action" />
+              <col class="col-entity" />
+              <col class="col-status" />
+              <col class="col-meta" />
+              <col class="col-tools" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Время</th>
+                <th>Пользователь</th>
+                <th>Действие</th>
+                <th>Объект</th>
+                <th>Статус</th>
+                <th>Метаданные</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="eventRows"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="emptyState" hidden>
+          <strong>Нет событий</strong>
+          <span>Измените поиск или фильтры.</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
