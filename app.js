@@ -120,6 +120,7 @@ const eventRows = document.querySelector("#eventRows");
 const emptyState = document.querySelector("#emptyState");
 const searchInput = document.querySelector("#searchInput");
 const workflowChips = document.querySelector("#workflowChips");
+const workflowSelect = document.querySelector("#workflowSelect");
 const quietToggle = document.querySelector("#quietToggle");
 
 function normalizeEvent(event) {
@@ -562,14 +563,24 @@ searchInput.addEventListener("input", (event) => {
   render();
 });
 
-workflowChips.addEventListener("click", (event) => {
-  const chip = event.target.closest("[data-workflow]");
-  if (!chip) return;
-  state.workflow = chip.dataset.workflow;
-  document.querySelectorAll("[data-workflow]").forEach((item) => item.classList.toggle("active", item === chip));
-  state.selectedId = null;
-  render();
-});
+if (workflowChips) {
+  workflowChips.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-workflow]");
+    if (!chip) return;
+    state.workflow = chip.dataset.workflow;
+    document.querySelectorAll("[data-workflow]").forEach((item) => item.classList.toggle("active", item === chip));
+    state.selectedId = null;
+    render();
+  });
+}
+
+if (workflowSelect) {
+  workflowSelect.addEventListener("change", (event) => {
+    state.workflow = event.target.value;
+    state.selectedId = null;
+    render();
+  });
+}
 
 quietToggle.addEventListener("change", (event) => {
   state.hideQuiet = event.target.checked;
